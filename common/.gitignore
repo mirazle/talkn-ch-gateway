@@ -1,6 +1,0 @@
-node_modules/
-dist/
-logs/
-isolate-*
-certs/*
-.DS_Store
