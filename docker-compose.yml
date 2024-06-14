@@ -1,0 +1,24 @@
+services:
+  socket-io:
+    build:
+      context: ..
+      dockerfile: talkn-server/Dockerfiles/socket-io
+    volumes:
+      - ~/:/usr/src/app
+    working_dir: /usr/src/app
+    command: node dist/app.js
+    ports:
+      - 10080:10080
+      - 10443:10443
+    environment:
+      - IS_DOCKER=true
+      - REDIS_HOST=redis
+    networks:
+      - ch-network
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certs:/etc/letsencrypt
+    entrypoint: /bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $$!; done;'
+networks:
+  ch-network:
