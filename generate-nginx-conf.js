@@ -28,8 +28,6 @@ if (topCh !== "/") {
   }
 }
 
-console.log(jsonData);
-
 let nginxConfig = `
 # user  staff;
 worker_processes  1;
@@ -45,7 +43,7 @@ events {
 
 http {
   server {
-    listen 10440 ssl;
+    listen ${jsonData.gatewayListen} ssl;
     server_name 127.0.0.1;
     access_log  ${homeDir}/${projectDir}/logs/access.log;
 
@@ -67,7 +65,9 @@ http {
 // トップレベルの location を追加
 nginxConfig += `
     location ${jsonData.nginx.location} {
-      proxy_pass https://${jsonData.nginx.proxyWssServer}:${jsonData.nginx.proxyWssPort}/socket.io/${jsonData.nginx.location};
+      proxy_pass https://${jsonData.nginx.proxyWssServer}:${
+  jsonData.nginx.proxyWssPort
+}/socket.io/${jsonData.nginx.location === "/" ? "" : jsonData.nginx.location};
     }
 `;
 
