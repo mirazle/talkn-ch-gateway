@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  openresty:
+    image: openresty/openresty:alpine
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ~/talkn-certs:/etc/ssl/certs
+    ports:
+      - "10000:10000"
+    networks:
+      - wss-network
+
+networks:
+  wss-network:

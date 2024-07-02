@@ -21,17 +21,17 @@
       </Arguments>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="スレッドグループ">
-        <intProp name="ThreadGroup.num_threads">100</intProp>
+        <intProp name="ThreadGroup.num_threads">1</intProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="ループコントローラ">
-          <stringProp name="LoopController.loops">100</stringProp>
+          <stringProp name="LoopController.loops">10</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor">
+        <BeanShellPreProcessor guiclass="TestBeanGUI" testclass="BeanShellPreProcessor" testname="BeanShell PreProcessor" enabled="true">
           <boolProp name="resetInterpreter">false</boolProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
@@ -46,15 +46,15 @@ vars.put(&quot;tuneId&quot;, tuneId);</stringProp>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTPS GET 初期接続">
           <stringProp name="TestPlan.comments">初期接続を確立し、サーバーに接続要求を送信します。</stringProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">10440</stringProp>
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+          <stringProp name="HTTPSampler.port">10000</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">/?tuneId=${tuneId}&amp;EIO=4&amp;transport=polling&amp;t=P0A8niN</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="ユーザー定義変数">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
@@ -66,7 +66,7 @@ vars.put(&quot;tuneId&quot;, tuneId);</stringProp>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Session ID">
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract Session ID" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">sessionId</stringProp>
             <stringProp name="RegexExtractor.regex">&quot;sid&quot;:&quot;(.+?)&quot;</stringProp>
@@ -80,8 +80,8 @@ vars.put(&quot;tuneId&quot;, tuneId);</stringProp>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTPS POST">
           <stringProp name="TestPlan.comments">初期接続後にセッションを確立するためのリクエストです。クライアントはサーバーからセッションID（SID）を取得します。</stringProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">10440</stringProp>
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+          <stringProp name="HTTPSampler.port">10000</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">/?tuneId=${tuneId}&amp;EIO=4&amp;transport=polling&amp;t=P0A8nif&amp;sid=${sessionId}</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -101,22 +101,22 @@ vars.put(&quot;tuneId&quot;, tuneId);</stringProp>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTPS GET POLLING1">
           <stringProp name="TestPlan.comments">継続的にサーバーと通信する(ポーリング)ためのリクエストです。</stringProp>
-          <stringProp name="HTTPSampler.domain">localhost</stringProp>
-          <stringProp name="HTTPSampler.port">10440</stringProp>
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+          <stringProp name="HTTPSampler.port">10000</stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.path">/?tuneId=${tuneId}&amp;EIO=4&amp;transport=polling&amp;t=P0A8nig&amp;sid=${sessionId}</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="ユーザー定義変数">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
         <JMeter.plugins.functional.samplers.websocket.WebSocketSampler guiclass="JMeter.plugins.functional.samplers.websocket.WebSocketSamplerGui" testclass="JMeter.plugins.functional.samplers.websocket.WebSocketSampler" testname="WebSocket Sampler">
-          <stringProp name="serverAddress">localhost</stringProp>
-          <stringProp name="serverPort">10440</stringProp>
+          <stringProp name="serverAddress">127.0.0.1</stringProp>
+          <stringProp name="serverPort">10000</stringProp>
           <stringProp name="implementation">RFC6455 (v13)</stringProp>
           <stringProp name="protocol">wss</stringProp>
           <stringProp name="contextPath">/?tuneId=${tuneId}&amp;=undefined&amp;EIO=4&amp;transport=websocket&amp;sid=${sessionId}</stringProp>
@@ -134,7 +134,7 @@ vars.put(&quot;tuneId&quot;, tuneId);</stringProp>
           <stringProp name="proxyPort"></stringProp>
           <stringProp name="proxyUsername"></stringProp>
           <stringProp name="messageBacklog">3</stringProp>
-          <elementProp name="queryStringParameters" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="ユーザー定義変数">
+          <elementProp name="queryStringParameters" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
           <stringProp name="TestPlan.comments">WebSocket接続を確立し、双方向リアルタイム通信を開始します。</stringProp>
@@ -149,7 +149,7 @@ vars.put(&quot;tuneId&quot;, tuneId);</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="ユーザー定義変数">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
         </HTTPSamplerProxy>

@@ -1,11 +1,8 @@
 node_modules/
 dist/
-logs/*
+nginx/logs/*
 nginx/nginx.pid
-isolate-*
-processed.txt
-certs/*
-redis/*
 db.rdb
 dump.rdb
 appendonlydir
+.DS_Store

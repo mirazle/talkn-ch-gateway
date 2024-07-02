@@ -6,14 +6,14 @@ const { exec } = require("child_process");
 const homeDir = os.homedir();
 const projectDir = "talkn-ch-gateway";
 const certsDir = "talkn-certs";
-const INPUT_JSON_FILE = path.join(__dirname + "/common", "ch-config.json");
+const INPUT_JSON_FILE = path.join(__dirname + "/common/src", "ch-config.json");
 const NGINX_CONF_PATH = path.join(__dirname, "nginx", "nginx.conf");
 
 // 引数の値を取得
 const args = process.argv.slice(2);
 const topCh = args[0] || "/";
 
-console.log(topCh);
+console.info(topCh);
 
 // JSONデータを読み込む
 let jsonData = JSON.parse(fs.readFileSync(INPUT_JSON_FILE, "utf8"));
@@ -43,8 +43,8 @@ events {
 
 http {
   server {
-    listen ${jsonData.gatewayListen} ssl;
-    server_name 127.0.0.1;
+    server_name ${jsonData.gateway.host};
+    listen ${jsonData.gateway.port} ssl;
     access_log  ${homeDir}/${projectDir}/logs/access.log;
 
     ssl_certificate     ${homeDir}/${certsDir}/localhost.crt;
