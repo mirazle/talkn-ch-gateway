@@ -42,9 +42,15 @@ sudo make install
 echo 'export PATH=/usr/local/openresty/bin:$PATH' >> ~/.bash_profile
 export PATH=$PATH:/usr/local/openresty/nginx/sbin
 source ~/.bash_profile
+
+sudo rm -rf /var/cache/nginx/proxy_cache/
 ```
 
 ```
+apt-get update
+apt-get install -y procps curl net-tools
+
+
 brew tap openresty/brew
 brew install openresty
 brew install openresty-debug
@@ -57,6 +63,7 @@ opm get openresty/lua-resty-core
 
 openresty -v
 openresty -c $(pwd)/nginx/nginx.conf
+openresty -s stop -c $(pwd)/nginx/nginx.localhost.conf
 openresty -s reload
 lsof -i :10443
 kill -9 $(lsof -t -i:10443)

@@ -1,0 +1,26 @@
+services:
+  openresty:
+    image: openresty/openresty
+    platform: linux/amd64
+    volumes:
+      - ./nginx:/etc/nginx
+      - ~/talkn-certs:/etc/ssl/certs
+    ports:
+      - "10000:443"
+    environment:
+      - IS_DOCKER=true
+      - NODE_ENV=development
+    command:
+      [
+        "/usr/local/openresty/bin/openresty",
+        "-g",
+        "daemon off;",
+        "-c",
+        "/etc/nginx/nginx.conf",
+      ]
+    networks:
+      - front-gateway
+
+networks:
+  front-gateway:
+    driver: bridge
