@@ -9,6 +9,8 @@ brew install docker-compose
 docker login
 docker-compose build
 docker-compose up
+
+docker exec -it b8680eb87acf /bin/sh
 ```
 
 # brew インストール
@@ -27,6 +29,26 @@ https://github.com/mirazle/talkn-server.git
 https://github.com/mirazle/talkn-api.git
 
 # ローカル開発
+
+```
+generate-lb-compose.sh
+
+	ch-config.jsonを読み込み、rootと各topChを読み込み下記を実行する
+
+		generate-lb-server.sh ${ch}
+
+			generate-openssl.ssh
+
+				${ch}/openssl.cert
+				${ch}/openssl.key
+
+			generate-docker-compose.sh
+
+				${ch}/docker-compose.yml
+			generate-nginx.sh
+```
+
+root：ch-config の
 
 ## open-resty
 

@@ -1,26 +1,43 @@
 services:
-  openresty:
-    image: openresty/openresty
-    platform: linux/amd64
+  root:
+    image: nginx:alpine
     volumes:
-      - ./nginx:/etc/nginx
-      - ~/talkn-certs:/etc/ssl/certs
+      - ./common/nginx/host.docker.internal/nginx.conf:/etc/nginx/nginx.conf
+      - ./common/nginx/host.docker.internal/openssl.crt:/etc/ssl/certs/openssl.crt
+      - ./common/nginx/host.docker.internal/openssl.key:/etc/ssl/certs/openssl.key
+    depends_on:
+      - aa.com
     ports:
       - "10000:443"
     environment:
       - IS_DOCKER=true
       - NODE_ENV=development
-    command:
-      [
-        "/usr/local/openresty/bin/openresty",
-        "-g",
-        "daemon off;",
-        "-c",
-        "/etc/nginx/nginx.conf",
-      ]
+    command: ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
+    deploy:
+      resources:
+        limits:
+          memory: 2g
     networks:
-      - front-gateway
+      - talkn-global
+
+  aa.com:
+    image: nginx:alpine
+    volumes:
+      - ./common/nginx/aa.com/nginx.conf:/etc/nginx/nginx.conf
+      - ./common/nginx/aa.com/openssl.crt:/etc/ssl/certs/openssl.crt
+      - ./common/nginx/aa.com/openssl.key:/etc/ssl/certs/openssl.key
+
+    environment:
+      - IS_DOCKER=true
+      - NODE_ENV=development
+    command: ["nginx", "-g", "daemon off;", "-c", "/etc/nginx/nginx.conf"]
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    networks:
+      - talkn-global
 
 networks:
-  front-gateway:
+  talkn-global:
     driver: bridge
