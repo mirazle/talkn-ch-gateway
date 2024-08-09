@@ -65,8 +65,8 @@ http {
 // トップレベルの location を追加
 nginxConfig += `
     location ${jsonData.nginx.location} {
-      proxy_pass https://${jsonData.nginx.proxyWssServer}:${
-  jsonData.nginx.proxyWssPort
+      proxy_pass https://${jsonData.nginx.host}:${
+  jsonData.nginx.port
 }/socket.io/${jsonData.nginx.location === "/" ? "" : jsonData.nginx.location};
     }
 `;
@@ -77,7 +77,7 @@ function appendLocations(data, prefix = "") {
     const fullPath = prefix + child.nginx.location;
     nginxConfig += `
     location /${fullPath} {
-      proxy_pass https://${child.nginx.proxyWssServer}:${child.nginx.proxyWssPort}/socket.io/${fullPath};
+      proxy_pass https://${child.nginx.host}:${child.nginx.port}/socket.io/${fullPath};
     }
 `;
     if (child.children && child.children.length > 0) {
