@@ -1,5 +1,6 @@
 services:
   root:
+    container_name: talkn-ch-gateway-root
     image: nginx:alpine
     volumes:
       - ./common/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -19,6 +20,7 @@ services:
       - talkn-global
 
   aa.com:
+    container_name: talkn-ch-gateway-aa.com
     image: nginx:alpine
     volumes:
       - ./common/nginx/aa.com/nginx.conf:/etc/nginx/nginx.conf
@@ -39,4 +41,4 @@ services:
 
 networks:
   talkn-global:
-    driver: bridge
+    external: true
