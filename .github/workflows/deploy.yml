@@ -3,36 +3,16 @@ name: Deploy to Production
 on:
   push:
     branches:
-      - main # main ブランチへのプッシュで実行
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3 # v3にアップデート
+        uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2 # 最新バージョンにアップデート
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2 # 最新バージョンにアップデート
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3 # 最新バージョンにアップデート
-        with:
-          context: .
-          push: true
-          tags: your-docker-repo/your-image:latest
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build # build が完了してから実行される
-    steps:
       - name: Deploy to production server
         uses: appleboy/ssh-action@v0.1.3
         with:
@@ -41,7 +21,8 @@ jobs:
           key: ${{ secrets.PRODUCTION_SERVER_SSH_KEY }}
           port: ${{ secrets.PRODUCTION_SERVER_PORT }}
           script: |
-            cd /path/to/your/app  # docker-compose.yml があるディレクトリに移動
-            docker-compose down    # 既存のコンテナを停止
-            docker-compose pull    # 新しいイメージをプル
-            docker-compose up -d   # コンテナをバックグラウンドで再起動
+            cd /path/to/your/app
+            git pull origin main  # コードをサーバーに引き込む
+            docker-compose down   # 既存コンテナを停止
+            docker-compose build  # サーバー上でイメージをビルド
+            docker-compose up -d  # 新しいイメージでコンテナを起動
