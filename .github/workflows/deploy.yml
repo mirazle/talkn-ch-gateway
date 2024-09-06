@@ -3,7 +3,7 @@ name: Deploy to Production
 on:
   push:
     branches:
-      - main # メインブランチへのプッシュ時にデプロイをトリガー
+      - main # main ブランチへのプッシュで実行
 
 jobs:
   build:
@@ -41,7 +41,7 @@ jobs:
           key: ${{ secrets.PRODUCTION_SERVER_SSH_KEY }}
           port: ${{ secrets.PRODUCTION_SERVER_PORT }}
           script: |
-            cd /path/to/your/app
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d
+            cd /path/to/your/app  # docker-compose.yml があるディレクトリに移動
+            docker-compose down    # 既存のコンテナを停止
+            docker-compose pull    # 新しいイメージをプル
+            docker-compose up -d   # コンテナをバックグラウンドで再起動
