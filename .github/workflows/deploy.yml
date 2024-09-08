@@ -21,7 +21,8 @@ jobs:
           key: ${{ secrets.PRODUCTION_SERVER_SSH_KEY }}
           port: ${{ secrets.PRODUCTION_SERVER_PORT }}
           script: |
-            cd /path/to/your/app
+            sudo su -
+            cd talkn
             git pull origin main  # コードをサーバーに引き込む
             docker-compose down   # 既存コンテナを停止
             docker-compose build  # サーバー上でイメージをビルド
